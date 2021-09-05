@@ -1,21 +1,23 @@
-from mnist import MNISTDataset
-from models import CNN
+# IMPORT PACKAGES
 import torch
 import torchvision
 import numpy as np
 import matplotlib.pyplot as plt
 import time
 import argparse
+# IMPORT CUSTOM MODULES
+from mnist import MNISTDataset
+from models import CNN
 
-def train(dataloader, model, criterion, optimizer, epoch, device):
+def train(dataloader, model, criterion, optimizer, device):
     start_time = time.time()
     model.train()
-    
+
     running_loss = 0.0
     correct = 0
     total = 0
     
-    for batch_idx, (X, y) in enumerate(dataloader):
+    for batch_idx, (X, y) in enumerate(dataloader):        
         X = X.to(device)
         y = y.long().to(device)
         
@@ -42,7 +44,7 @@ def main():
     parser = argparse.ArgumentParser(description='PyTorch MNIST Classifier')
     parser.add_argument('--batch-size', type=int, default=32, metavar='', help='Batch size for training (default: 32)')
     parser.add_argument('--lr', type=int, default=1e-3, metavar='', help='Learning rate for training (default: 1e-3)')
-    parser.add_argument('--num-epoch', type=int, default=25, metavar='', help='Number of Epoch (default: 25)')
+    parser.add_argument('--num-epoch', type=int, default=5, metavar='', help='Number of Epoch (default: 25)')
     parser.add_argument('--device', type=str, default='cpu', metavar='', help='Define device (default: cpu)')
     parser.add_argument('--seed', type=int, default=1, metavar='S', help='random seed (default: 1)')
     args = parser.parse_args()
@@ -69,7 +71,7 @@ def main():
     
     start_time = time.time()
     for epoch in range(args.num_epoch):
-        train_loss, acc = train(train_dl, model, criterion, optimizer, epoch, device)
+        train_loss, acc = train(train_dl, model, criterion, optimizer, device)
         train_losses.append(train_loss)
         train_acc.append(acc)
     print("Done!")
